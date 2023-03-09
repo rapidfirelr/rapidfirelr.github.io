@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search and Modify Records</title>
+  </head>
+  <body>
+    <h1>Search and Modify Records</h1>
+    
+    <form method="POST" action="search.php">
+      <label for="id">Enter your ID:</label>
+      <input type="text" id="id" name="id" required>
+      
+      <input type="submit" value="Search">
+    </form>
+    
+    <br>
+    
+    <?php
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Sanitize input
+        $id = htmlspecialchars($_POST['id']);
+
+        // Validate input
+        if (!preg_match('/^[0-9]+$/', $id)) {
+          echo '<p>Invalid ID. Please enter a valid numeric ID.</p>';
+        } else {
+          // Connect to database
+          $servername = "localhost";
+          $username = "yourusername";
+          $password = "yourpassword";
+          $dbname = "yourdatabase";
+
+          $conn = new mysqli($servername, $username, $password, $dbname);
+
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
+
+          // Search for record
+          $sql = "SELECT * FROM records WHERE id = " . $id;
+          $result = $conn->query($sql);
+
+          if ($result->num_rows > 0) {
+            // Display record and allow modification
+            $row = $result->fetch_assoc();
+            
+            echo '<form method="POST" action="modify.php">';
+            echo '<label for="id">ID:</label>';
+            echo '<input type="text" id="id" name="id" value="' . $row["id"] . '" readonly><br>';
+            echo '<label for="name">Name:</label>';
+            echo '<input type="text" id="name" name="name" value="' . $row["name"] . '" required><br>';
+            echo '<label for="email">Email:</label>';
+            echo '<input type="email" id="email" name="email" value="' . $row["email"] . '" required><br>';
+            echo '<input type="submit" value="Modify">';
+            echo '</form>';
+          } else {
+            echo '<p>No records found for ID ' . $id . '.</p>';
+          }
+
+          $conn->close();
+        }
+      }
+    ?>
+    
+  </body>
+</html>

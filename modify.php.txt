@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modify Record</title>
+  </head>
+  <body>
+    <h1>Modify Record</h1>
+    
+    <?php
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Sanitize input
+        $id = htmlspecialchars($_POST['id']);
+        $name = htmlspecialchars($_POST['name']);
+        $email = htmlspecialchars($_POST['email']);
+
+        // Validate input
+        if (!preg_match('/^[0-9]+$/', $id)) {
+          echo '<p>Invalid ID. Please enter a valid numeric ID.</p>';
+        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          echo '<p>Invalid email. Please enter a valid email address.</p>';
+        } else {
+          // Connect to database
+          $servername = "localhost";
+          $username = "yourusername";
+          $password = "yourpassword";
+          $dbname = "yourdatabase";
+
+          $conn = new mysqli($servername, $username, $password, $dbname);
+
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
+
+          // Update record
+          $sql = "UPDATE records SET name='" . $name . "', email='" . $email . "' WHERE id=" . $id;
+          if ($conn->query($sql) === TRUE) {
+            echo '<p>Record updated successfully.</p>';
+          } else {
+            echo '<p>Error updating record: ' . $conn->error . '</p>';
+          }
+
+          $conn->close();
+        }
+      } else {
+        // Display form with current record information
+        $id = htmlspecialchars($_GET['id']);
+
+        // Connect to database
+        $servername = "localhost";
+        $username = "yourusername";
+        $password = "yourpassword";
+        $dbname = "yourdatabase";
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Retrieve current record information
+        $sql = "SELECT * FROM records WHERE id = " . $id;
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+          $row = $result->fetch_assoc();
+
+          // Display form with current record information
+          echo '<form method="POST" action="' . htmlspecialchars($_SERVER['PHP_SELF']) . '">';
+          echo '<label for="id">ID:</label>';
+          echo '<input type="text" id="id" name="id" value="' . $row["id"] . '" readonly><br>';
+          echo '<label for="name">Name:</label>';
+          echo '<input type="text" id="name" name="name" value="' . $row["name"] . '" required><br>';
+          echo '<label for="email">Email:</label>';
+          echo '<input type="email" id="email" name="email" value="' . $row["email"] . '" required><br>';
+          echo '<input type="submit" value="Save">';
+          echo '</form>';
+        } else {
+          echo '<p>No records found for ID ' . $id . '.</p>';
+        }
+
+        $conn->close();
+      }
+    ?>
+    
+  </body>
+</html>

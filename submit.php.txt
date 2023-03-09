@@ -1,0 +1,33 @@
+<?php
+  // Get the form data
+  $name = $_POST['name'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $address = $_POST['address'];
+  $phone = $_POST['phone'];
+  $birthdate = $_POST['birthdate'];
+
+  // Connect to the database
+  $host = 'localhost';
+  $username = 'your_mysql_username';
+  $password = 'your_mysql_password';
+  $dbname = 'your_database_name';
+
+  $conn = mysqli_connect($host, $username, $password, $dbname);
+
+  if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+  }
+
+  // Insert the customer data into the table
+  $stmt = $conn->prepare('INSERT INTO customers (name, email, password, address, phone, birthdate) VALUES (?, ?, ?, ?, ?, ?)');
+  $stmt->bind_param('ssssss', $name, $email, $password, $address, $phone, $birthdate);
+  $stmt->execute();
+
+  // Close the database connection
+  $stmt->close();
+  $conn->close();
+
+  // Redirect the user to a success page
+  header('Location: success.html');
+?>
