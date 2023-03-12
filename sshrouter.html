@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Resources Verse: Configure SSH on a Router</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="OSINT.html">OSINT</a></li>
+            <li><a href="Coding.html">Coding</a></li>
+            <li><a href="Devices.html">Devices</a></li>
+	    <li><a href="Ethical-H.html">Ethical-H</a></li>
+            <li><a href="Tutorial.html">Tutorials</a></li>
+            <li><a href="Miscellaneuos.html">Miscellaneous</a></li>
+        </ul>
+    </nav>
+    <main>
+<h2>Steps to Configure SSH on a Router</h2>
+
+<ol>
+      <li><b>Configure the router's hostname and domain name:</b> <br>
+           Router(config)# hostname Nameyourrouter <br>
+           Nameyourrouter(config)# io domain-name rapidfirelr.io</li>
+      <li><b>Generate the router's RSA key pair:</b><br>
+           nameyourrouter(config)# crypto key generate rsa<br>
+           </li>
+      
+	<li><b>Configure the VTY lines to use SSH for remote access:</b><br>
+           Nameyourrouter(config)# line vty 0 4<br>
+           Nameyourrouter(config-line)# transport input ssh <br>
+           Nameyourrouter(config-line)# login local<br>
+           Nameyourrouter(config)# login local<br></li>
+	<li><b>(Optional) Configure the router to use local authentication for SSH:</b><br>
+          Replace "username" and "password" with your desired login credentials.<br>
+	   Nameyourrouter(config)# username username privilege 15 secret password<br>
+          </li>
+	<li><b>Save the router's configuration:</b><br>
+           
+           Nameyourrouter(config)#write memory <br>
+           <h3>Example</h3>
+	   <pre>RouterName(config)# hostname Nameyourrouter
+Nameyourrouter(config)# ip domain-name example.com
+Nameyourrouter(config)# crypto key generate rsa
+The name for the keys will be: Nameyourrouter.example.com
+Choose the size of the key modulus in the range of 360 to 2048 for your
+  General Purpose Keys. Choosing a key modulus greater than 512 may take
+  a few minutes.
+How many bits in the modulus [512]: 2048
+Generating RSA keys ...
+[OK]
+Nameyourrouter(config)# line vty 0 4
+Nameyourrouter(config-line)# transport input ssh
+Nameyourrouter(config-line)# login local
+Nameyourrouter(config)# username myusername privilege 15 secret mypassword
+Nameyourrouter(config)# write memory
+These steps may vary depending on the router model and IOS version, so it's important to consult the documentation or manufacturer's instructions for your specific router.
+</li>
+    </ol>
+    <p><a href="devices.html" align="right">Back</a>   <a href="psecure.html" align="right">Port Security</a></p>
+    </main>
+</body>
+</html>
