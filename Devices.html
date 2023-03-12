@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resources Verse</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Resources Verse</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="OSINT.html">OSINT</a></li>
+            <li><a href="Coding.html">Coding</a></li>
+            <li><a href="Devices.html">Devices</a></li>
+	    <li><a href="Ethical-H.html">Ethical-H</a></li>
+            <li><a href="Tutorial.html">Tutorials</a></li>
+            <li><a href="Miscellaneuos.html">Miscellaneous</a></li>
+        </ul>
+    </nav>
+    <main>
+<h2>Basic Router Commands and Examples</h2>
+
+<ol>
+      <li><b>enable:</b> This command is used to enter privileged EXEC mode, which provides access to all router commands.<br>
+           Router> enable <br>
+           Router# <pre></li>
+      <li><b>configure terminal:</b> This command is used to enter global configuration mode, which allows you to configure the router.<br>
+           Router# configure terminal <br>
+           Router(config)# <br>
+           </li>
+      
+	<li><b>hostname:</b> This command is used to set the hostname of the router.<br>
+           Router(config)# hostname Nameyourrouter <br>
+           Nameyourtouter(config)# <pre></li>
+	<li><b>interface:</b> This command is used to select and configure a specific interface on the router.<br>
+           <b>Syntax: interface type number</b>
+	   Nameyourrouter(config)# interface gigabitethernet0/1 <br>
+           Nameyourrouter(config-if)#</li>
+	<li><b>ip address:</b> This command is used to assign an IP address to an interface.<br>
+           Syntax: ip address address subnet-mask
+	   Nameyourrouter(config-if)# ip address 192.168.1.1 255.255.255.0<br>
+           Nameyourrouter(config-if)#</li>
+	<li><b>no shutdown:</b> This command is used to activate an interface.<br>
+           Nameyourrouter(config-if)# no shutdown<br>
+           Nameyourtouter(config-if)#</li>
+	<li>show interfaces: This command is used to display information about all interfaces on the router.<br>
+           <b>Syntax: show interfaces</b> <br>
+	   <pre>GigabitEthernet0/1 is up, line protocol is up
+  Hardware is Gigabit Ethernet, address is 0012.7f8c.a800 (bia 0012.7f8c.a800)
+  Internet address is 192.168.1.1/24
+  MTU 1500 bytes, BW 100000 Kbit/sec, DLY 1000 usec,
+  ...</pre></li>
+	<li><b>show running-config:</b> This command is used to display the current configuration of the router.<br>
+           <b>Syntax: show running-config</b> <br>
+	   <pre>...
+	hostname Nameyourrouter
+	!
+	interface GigabitEthernet0/1
+ 	ip address 192.168.1.1 255.255.255.0
+ 	no shutdown
+	...</pre></li>
+	<li>copy running-config startup-config: This command is used to save the current configuration to non-volatile memory, so that it will be loaded automatically the next time the router is restarted.<br>
+        <b>Syntax: copy running-config startup-config</b> <br>   
+	Nameyourrouter# copy running-config startup-config</li>
+    </ol>
+    <p><a href="sshrouter.html" align="right">Configure SSH on Router</a></p>
+    </main>
+</body>
+</html>
